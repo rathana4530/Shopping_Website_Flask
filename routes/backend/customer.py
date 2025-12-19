@@ -1,6 +1,7 @@
 from app import app, render_template
 import requests
 
-@app.route('/category')
-def category():
-    return render_template('backend/category/index.html')
+@app.route('/admin/customer')
+def customer():
+    module = 'customer'
+    return render_template('backend/customer/index.html', module=module)
