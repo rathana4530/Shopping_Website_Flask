@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'frontend/layout/style.html' %}
+</head>
+<body class="animsition">
+
+    {% include 'frontend/layout/header.html' %}
+
+    {% block content %}{% endblock %}
+
+    {% include 'frontend/layout/footer.html' %}
+    {% include 'frontend/layout/script.html' %}
+</body>
+</html>
