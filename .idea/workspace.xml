@@ -5,98 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc9bc7fa-0521-4860-8370-a277cab3bd4f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/cart.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/cart_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/color.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/coupon.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/multi_image.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/order.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/order_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/product_variants.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/purchase.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/purchase_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/role.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/size.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/wishlist.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/backend/auth.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/frontend/product_detail.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/frontend/shopping_cart.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/backend/dist/img/img-error.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/backend/dist/img/img-onerror.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/backend/dist/img/no_image.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/backend/dist/img/user1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/backend/dist/img/user2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/backend/auth/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/backend/category/form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/backend/product/view.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/backend/user/form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/backend/user/view.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontend/layout/banner.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/upload_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/watermark_image.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/675d8b55-f486-4686-b442-dfb0c7e4de69.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/675d8b55-f486-4686-b442-dfb0c7e4de69.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shopping.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shopping.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/category.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/backend/category.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/backend/category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/backend/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/backend/dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/backend/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/backend/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/backend/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/backend/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/frontend/contact.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/frontend/contact.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/frontend/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/frontend/index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/frontend/shop.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/frontend/shop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/avatar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/avatar2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/avatar3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/avatar4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/avatar5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/boxed-bg.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/boxed-bg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/default-150x150.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/icons.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/photo1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/photo2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/photo3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/photo4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/prod-1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/prod-2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/prod-3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/prod-4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/prod-5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user1-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user2-160x160.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user3-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user4-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user5-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user6-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user7-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/img/user8-128x128.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/backend/dist/js/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/backend/dist/js/demo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/frontend/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/frontend/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backend/category/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backend/category/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backend/layout/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backend/layout/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backend/layout/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backend/layout/sidebar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backend/product/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backend/product/form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backend/product/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backend/product/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backend/user/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backend/user/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/layout/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/layout/cart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/layout/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/layout/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/layout/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/layout/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/layout/master.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/layout/master.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/layout/script.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/layout/script.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/layout/style.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/layout/style.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/product_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/product_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/shop.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontend/shoping-cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontend/shopping_cart.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +172,7 @@
       <workItem from="1769321428295" duration="22376000" />
       <workItem from="1769408879301" duration="2372000" />
       <workItem from="1769433061441" duration="11047000" />
-      <workItem from="1769687962970" duration="2271000" />
+      <workItem from="1769687962970" duration="3896000" />
     </task>
     <servers />
   </component>
@@ -271,6 +180,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/shopping$shopping.coverage" NAME="shopping Coverage Results" MODIFIED="1769689998297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/shopping$shopping.coverage" NAME="shopping Coverage Results" MODIFIED="1769690368701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
