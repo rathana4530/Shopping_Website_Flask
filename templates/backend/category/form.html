@@ -1,0 +1,146 @@
+{% extends 'backend/layout/master.html' %}
+
+{% block title %}
+    {{ 'Edit' if status == 'edit' else 'Add' }} category
+{% endblock %}
+
+
+{% block content %}
+    <!-- Flash message handler -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    {% for category, message in messages %}
+                        Swal.fire({
+                            icon: '{{ "success" if category == "success" else "error" }}',
+                            title: '{{ "Success" if category == "success" else "Error" }}',
+                            text: '{{ message }}',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    {% endfor %}
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">{{ status }} Category</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ url_for("dashboard") }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url_for("category") }}">Category</a></li>
+                            <li class="breadcrumb-item active">{{ status }} Category</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <a href="{{ url_for("category") }}" class="btn btn-block btn-outline-secondary"><i
+                                                class="fas fa-arrow-left"></i> Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form action="{{ url_for("save_category") }}" method="post">
+                                {{ form.csrf_token }}
+                                <input type="hidden" name="status" value="{{ status }}">
+                                {% if status == 'edit' %}
+                                    <input type="hidden" name="category_id" value="{{ category_id }}">
+                                {% endif %}
+
+                                <div class="card-body row">
+
+                                    <div class="form-group col-md-6">
+                                        <label>Name <span class="text-danger">*</span></label>
+                                        <input type="text" name="categoryname" class="form-control"
+                                               placeholder="Enter Name"
+                                               value="{{ category.categoryname if status == 'edit' }}">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Description</label>
+                                        <textarea class="form-control" rows="3"
+                                                  name="description">{{ category.description if status == 'edit' }}</textarea>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!--/.col (left) -->
+
+                    <style>
+                        .image-upload-wrapper {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 10px;
+                        }
+
+                        .image-preview {
+                            width: 120px;
+                            height: 120px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                            border: 3px solid #eee;
+                        }
+
+                        .upload-btn {
+                            cursor: pointer;
+                        }
+
+                        #image_path {
+                            display: none;
+                        }
+                    </style>
+                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script>
+                        function previewImage(event) {
+                            const reader = new FileReader();
+                            reader.onload = function () {
+                                const output = document.getElementById('imagePreview');
+                                output.src = reader.result;
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
+                    </script>
+                    <!-- right column -->
+                </div>
+            </div><!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+
+{% endblock %}

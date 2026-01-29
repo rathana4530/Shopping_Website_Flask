@@ -1,112 +1,460 @@
 {% extends 'backend/layout/master.html' %}
 
 {% block title %}
-	Add Product
+    {{ 'Edit' if status == 'edit' else 'Add' }} Product
 {% endblock %}
 
 {% block content %}
-
-      <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Add Product</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ url_for("dashboard") }}">Home</a></li>
-              <li class="breadcrumb-item active">Add Product</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-          <div class="row">
-          <!-- left column -->
-          <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="card">
-                <div class="card-header">
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <a href="{{ url_for("product") }}" class="btn btn-block btn-outline-secondary"><i class="fas fa-arrow-left"></i> Back</a>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form>
-                <div class="card-body row">
-                  <div class="form-group col-md-6">
-                    <label >Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" placeholder="Enter Name">
-                  </div>
-                    <div class="form-group col-md-6">
-                    <label >Barcode <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" placeholder="Enter Barcode">
-                  </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    {% for category, message in messages %}
+                        Swal.fire({
+                            icon: '{{ "success" if category == "success" else "error" }}',
+                            title: '{{ "Success" if category == "success" else "Error" }}',
+                            text: '{{ message }}',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    {% endfor %}
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
                     <div class="col-sm-6">
-                      <!-- select -->
-                      <div class="form-group">
-                        <label>Category <span class="text-danger">*</span></label>
-                        <select class="form-control">
-                          <option>food</option>
-                          <option>water</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                    <label>Cost <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" placeholder="Enter Cost">
-                  </div>
-                    <div class="form-group col-md-6">
-                    <label>Price <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" placeholder="Enter Price">
-                  </div>
-
-                  <div class="form-group col-md-6">
-                    <label for="exampleInputFile">Image</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-12">
-                      <label>Description</label>
-                      <textarea class="form-control" rows="3"></textarea>
-                  </div>
-                </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                    <button type="reset" class="btn btn-danger">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-
-              </form>
-            </div>
-          </div>
-          <!--/.col (left) -->
-          <!-- right column -->
+                        <h1 class="m-0">{{ status }} Product</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ url_for("dashboard") }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url_for("product") }}">Product</a></li>
+                            <li class="breadcrumb-item active">{{ status }} Product</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
-      </div><!--/. container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+        <!-- /.content-header -->
 
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <a href="{{ url_for("product") }}"
+                                           class="btn btn-block btn-outline-secondary"><i class="fas fa-arrow-left"></i>
+                                            Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form action="{{ url_for("save_product") }}" method="post" enctype="multipart/form-data">
+                                {{ form.csrf_token }}
+                                <input type="hidden" name="status" value="{{ status }}">
+                                {% if status == 'edit' %}
+                                    <input type="hidden" name="pro_id" value="{{ pro_id }}">
+                                    <input type="hidden" name="old_image" value="{{ product.image }}">
+                                {% endif %}
 
+                                <div class="card-body row">
+
+                                    <!-- Main Profile Image -->
+                                    <div class="col-md-12 mb-4">
+                                        <label class="font-weight-bold">Main Product Image</label>
+                                        <div class="image-upload-wrapper">
+                                            <img
+                                                    src="{{ url_for('static', filename='uploads/') + product.image if product.image else url_for('static', filename='backend/dist/img/no_image.png') }}"
+                                                    alt="Main Product Image" class="image-preview" id="mainImagePreview"
+                                                    onerror="this.onerror=null;this.src='{{ url_for('static', filename='backend/dist/img/img-error.svg') }}';"
+                                            >
+                                            <label for="image_path" class="upload-btn btn btn-sm btn-primary">
+                                                <i class="fas fa-upload"></i> Choose Main Image
+                                            </label>
+                                            <input type="file" id="image_path" name="image_path" accept="image/*"
+                                                   onchange="previewImage(event, 'mainImagePreview')">
+                                        </div>
+                                    </div>
+
+                                    <!-- Multiple Additional Images -->
+                                    <div class="col-md-12 mb-4">
+                                        <label class="font-weight-bold">Additional Product Images</label>
+                                        <div class="multi-image-container">
+                                            <!-- Existing images (for edit mode) -->
+                                            {% if status == 'edit' and existing_images %}
+                                                <div class="existing-images-wrapper">
+                                                    {% for img in existing_images %}
+                                                        <div class="image-item"
+                                                             data-image-id="{{ img.multi_image_id }}">
+                                                            <img src="{{ url_for('static', filename='uploads/') + img.image }}"
+                                                                 alt="Product Image"
+                                                                 onerror="this.onerror=null;this.src='{{ url_for('static', filename='backend/dist/img/img-error.svg') }}';">
+                                                            <button type="button" class="btn-remove-existing"
+                                                                    onclick="markImageForDeletion({{ img.multi_image_id }})">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                            <input type="hidden" name="existing_images[]"
+                                                                   value="{{ img.multi_image_id }}">
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+
+                                            <!-- New images preview area -->
+                                            <div id="multiImagePreview" class="multi-image-preview"></div>
+
+                                            <!-- Upload button -->
+                                            <div class="upload-area">
+                                                <label for="multi_images" class="upload-box">
+                                                    <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                                                    <p>Click to upload multiple images</p>
+                                                    <span class="text-muted">or drag and drop</span>
+                                                </label>
+                                                <input type="file" id="multi_images" name="multi_images[]"
+                                                       accept="image/*" multiple onchange="handleMultipleImages(event)">
+                                            </div>
+                                        </div>
+                                        <small class="form-text text-muted">You can select multiple images at once.
+                                            Supported formats: JPG, PNG, GIF</small>
+                                    </div>
+
+                                    <!-- Hidden input for images to delete -->
+                                    <input type="hidden" name="images_to_delete" id="images_to_delete" value="">
+
+                                    <div class="form-group col-md-6">
+                                        <label>Name <span class="text-danger">*</span></label>
+                                        <input type="text" name="product_name" class="form-control"
+                                               placeholder="Enter Name"
+                                               value="{{ product.productname if status == 'edit' }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Barcode <span class="text-danger">*</span></label>
+                                        <input type="text" name="barcode" class="form-control"
+                                               placeholder="Enter Barcode"
+                                               value="{{ product.barcode if status == 'edit' }}">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Category <span class="text-danger">*</span></label>
+                                            <select class="form-control" name="category">
+                                                {% for category in category %}
+                                                    <option value="{{ category.category_id }}" {{ 'selected' if product.category_id == category.category_id }}>{{ category.categoryname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Cost <span class="text-danger">*</span></label>
+                                        <input type="number" name="cost" class="form-control" placeholder="Enter Cost"
+                                               value="{{ product.cost if status == 'edit' }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Price <span class="text-danger">*</span></label>
+                                        <input type="number" name="price" class="form-control" placeholder="Enter Price"
+                                               value="{{ product.price if status == 'edit' }}">
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Description</label>
+                                        <textarea class="form-control" rows="3"
+                                                  name="description">{{ product.description if status == 'edit' }}</textarea>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!--/.col (left) -->
+
+                    <style>
+                        /* Main image styles */
+                        .image-upload-wrapper {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 10px;
+                        }
+
+                        .image-preview {
+                            width: 120px;
+                            height: 120px;
+                            border-radius: 8px;
+                            object-fit: cover;
+                            border: 3px solid #eee;
+                        }
+
+                        .upload-btn {
+                            cursor: pointer;
+                        }
+
+                        #image_path, #multi_images {
+                            display: none;
+                        }
+
+                        /* Multiple images styles */
+                        .multi-image-container {
+                            border: 2px dashed #ddd;
+                            border-radius: 8px;
+                            padding: 20px;
+                            background-color: #f8f9fa;
+                        }
+
+                        .existing-images-wrapper {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                            gap: 15px;
+                            margin-bottom: 20px;
+                        }
+
+                        .multi-image-preview {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                            gap: 15px;
+                            margin-bottom: 20px;
+                        }
+
+                        .image-item {
+                            position: relative;
+                            width: 100%;
+                            padding-bottom: 100%;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            transition: transform 0.2s;
+                        }
+
+                        .image-item:hover {
+                            transform: scale(1.05);
+                        }
+
+                        .image-item img {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+
+                        .image-item.marked-for-deletion {
+                            opacity: 0.4;
+                            filter: grayscale(100%);
+                        }
+
+                        .image-item.marked-for-deletion::after {
+                            content: 'Will be deleted';
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: rgba(220, 53, 69, 0.9);
+                            color: white;
+                            padding: 5px 10px;
+                            border-radius: 4px;
+                            font-size: 12px;
+                            font-weight: bold;
+                        }
+
+                        .btn-remove, .btn-remove-existing {
+                            position: absolute;
+                            top: 5px;
+                            right: 5px;
+                            background: rgba(220, 53, 69, 0.9);
+                            color: white;
+                            border: none;
+                            border-radius: 50%;
+                            width: 30px;
+                            height: 30px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            z-index: 10;
+                            transition: background 0.2s;
+                        }
+
+                        .btn-remove:hover, .btn-remove-existing:hover {
+                            background: rgba(220, 53, 69, 1);
+                        }
+
+                        .upload-area {
+                            width: 100%;
+                        }
+
+                        .upload-box {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 40px;
+                            border: 2px dashed #007bff;
+                            border-radius: 8px;
+                            background: white;
+                            cursor: pointer;
+                            transition: all 0.3s;
+                        }
+
+                        .upload-box:hover {
+                            background: #e7f3ff;
+                            border-color: #0056b3;
+                        }
+
+                        .upload-box i {
+                            color: #007bff;
+                            margin-bottom: 10px;
+                        }
+
+                        .upload-box p {
+                            margin: 10px 0 5px 0;
+                            font-weight: 500;
+                            color: #333;
+                        }
+                    </style>
+                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script>
+                        // Preview main product image
+                        function previewImage(event, previewId) {
+                            const reader = new FileReader();
+                            reader.onload = function () {
+                                const output = document.getElementById(previewId);
+                                output.src = reader.result;
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
+
+                        // Handle multiple images
+                        let selectedFiles = [];
+
+                        function handleMultipleImages(event) {
+                            const files = Array.from(event.target.files);
+                            selectedFiles = [...selectedFiles, ...files];
+                            displayMultipleImages();
+                        }
+
+                        function displayMultipleImages() {
+                            const previewContainer = document.getElementById('multiImagePreview');
+                            previewContainer.innerHTML = '';
+
+                            selectedFiles.forEach((file, index) => {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    const imageItem = document.createElement('div');
+                                    imageItem.className = 'image-item';
+                                    imageItem.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview">
+                            <button type="button" class="btn-remove" onclick="removeImage(${index})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                                    previewContainer.appendChild(imageItem);
+                                };
+                                reader.readAsDataURL(file);
+                            });
+
+                            // Update the file input with current selection
+                            updateFileInput();
+                        }
+
+                        function removeImage(index) {
+                            selectedFiles.splice(index, 1);
+                            displayMultipleImages();
+                        }
+
+                        function updateFileInput() {
+                            const input = document.getElementById('multi_images');
+                            const dataTransfer = new DataTransfer();
+
+                            selectedFiles.forEach(file => {
+                                dataTransfer.items.add(file);
+                            });
+
+                            input.files = dataTransfer.files;
+                        }
+
+                        // Mark existing images for deletion
+                        let imagesToDelete = [];
+
+                        function markImageForDeletion(imageId) {
+                            const imageItem = document.querySelector(`[data-image-id="${imageId}"]`);
+
+                            if (imagesToDelete.includes(imageId)) {
+                                // Unmark for deletion
+                                imagesToDelete = imagesToDelete.filter(id => id !== imageId);
+                                imageItem.classList.remove('marked-for-deletion');
+                            } else {
+                                // Mark for deletion
+                                imagesToDelete.push(imageId);
+                                imageItem.classList.add('marked-for-deletion');
+                            }
+
+                            // Update hidden input
+                            document.getElementById('images_to_delete').value = imagesToDelete.join(',');
+                        }
+
+                        // Drag and drop functionality
+                        const uploadBox = document.querySelector('.upload-box');
+
+                        if (uploadBox) {
+                            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                                uploadBox.addEventListener(eventName, preventDefaults, false);
+                            });
+
+                            function preventDefaults(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+
+                            ['dragenter', 'dragover'].forEach(eventName => {
+                                uploadBox.addEventListener(eventName, () => {
+                                    uploadBox.style.background = '#e7f3ff';
+                                    uploadBox.style.borderColor = '#0056b3';
+                                }, false);
+                            });
+
+                            ['dragleave', 'drop'].forEach(eventName => {
+                                uploadBox.addEventListener(eventName, () => {
+                                    uploadBox.style.background = 'white';
+                                    uploadBox.style.borderColor = '#007bff';
+                                }, false);
+                            });
+
+                            uploadBox.addEventListener('drop', (e) => {
+                                const dt = e.dataTransfer;
+                                const files = Array.from(dt.files).filter(file => file.type.startsWith('image/'));
+
+                                if (files.length > 0) {
+                                    selectedFiles = [...selectedFiles, ...files];
+                                    displayMultipleImages();
+                                }
+                            }, false);
+                        }
+                    </script>
+                    <!-- right column -->
+                </div>
+            </div><!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
 {% endblock %}

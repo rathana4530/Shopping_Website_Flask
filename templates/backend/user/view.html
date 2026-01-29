@@ -1,0 +1,563 @@
+{% extends 'backend/layout/master.html' %}
+
+{% block title %}
+    User Profile
+{% endblock %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">User Profile</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Profile Sidebar -->
+                <div class="col-md-4">
+                    <!-- Profile Card -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <div class="profile-image-wrapper mb-3">
+                                    <img
+                                        class="profile-user-img img-fluid img-circle"
+                                        src="{{ url_for('static', filename='uploads/') + user.image if user.image else url_for('static', filename='backend/dist/img/avatar5.png') }}"
+                                        onerror="this.onerror=null;this.src='{{ url_for('static', filename='backend/dist/img/avatar5.png') }}';"
+                                        alt="User profile picture"
+                                        id="profileImage">
+                                    <div class="profile-image-overlay">
+                                        <i class="fas fa-camera"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="profile-username text-center">{{ user.username }}</h3>
+
+                            <p class="text-muted text-center">
+                                <span class="badge badge-{{ 'success' if user.role_id == 1 else 'info' }} px-3 py-2">
+                                    <i class="fas fa-user-shield mr-1"></i>
+                                    {{ 'Administrator' if user.role_id == 1 else 'User' }}
+                                </span>
+                            </p>
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b><i class="fas fa-envelope mr-2 text-primary"></i>Email</b>
+                                    <span class="float-right text-muted">{{ user.email }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b><i class="fas fa-phone mr-2 text-success"></i>Phone</b>
+                                    <span class="float-right text-muted">{{ user.phone if user.phone else 'Not provided' }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b><i class="fas fa-calendar-alt mr-2 text-info"></i>Member Since</b>
+                                    <span class="float-right text-muted">{{ user.created_at.strftime('%b %Y') if user.created_at else 'N/A' }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b><i class="fas fa-toggle-on mr-2 text-warning"></i>Status</b>
+                                    <span class="float-right">
+                                        <span class="badge badge-{{ 'success' if user.status else 'danger' }}">
+                                            {{ 'Active' if user.status else 'Inactive' }}
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+
+                            <a href="{{ url_for("form_user", action = 'edit', user_id= user.user_id) }}" class="btn btn-primary btn-block">
+                                <i class="fas fa-edit mr-2"></i><b>Edit Profile</b>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Account Statistics -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-chart-line mr-2"></i>Account Statistics</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-shopping-cart text-primary mr-2"></i>Total Orders</span>
+                                    <span class="badge badge-primary badge-pill">0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-heart text-danger mr-2"></i>Wishlist Items</span>
+                                    <span class="badge badge-danger badge-pill">0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-shopping-bag text-success mr-2"></i>Cart Items</span>
+                                    <span class="badge badge-success badge-pill">0</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Details -->
+                <div class="col-md-8">
+                    <!-- About Me Card -->
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#about" data-toggle="tab">
+                                        <i class="fas fa-user mr-2"></i>About
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#activity" data-toggle="tab">
+                                        <i class="fas fa-history mr-2"></i>Activity
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#settings" data-toggle="tab">
+                                        <i class="fas fa-cog mr-2"></i>Settings
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <!-- About Tab -->
+                                <div class="active tab-pane" id="about">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="mb-3">
+                                                <i class="fas fa-info-circle text-primary mr-2"></i>Personal Information
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="info-item">
+                                                <label class="font-weight-bold text-muted">
+                                                    <i class="fas fa-id-badge mr-2"></i>User ID
+                                                </label>
+                                                <p class="text-dark">{{ user.user_id }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="info-item">
+                                                <label class="font-weight-bold text-muted">
+                                                    <i class="fas fa-user mr-2"></i>Username
+                                                </label>
+                                                <p class="text-dark">{{ user.username }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="info-item">
+                                                <label class="font-weight-bold text-muted">
+                                                    <i class="fas fa-envelope mr-2"></i>Email Address
+                                                </label>
+                                                <p class="text-dark">{{ user.email }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="info-item">
+                                                <label class="font-weight-bold text-muted">
+                                                    <i class="fas fa-phone mr-2"></i>Phone Number
+                                                </label>
+                                                <p class="text-dark">{{ user.phone if user.phone else 'Not provided' }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <div class="info-item">
+                                                <label class="font-weight-bold text-muted">
+                                                    <i class="fas fa-map-marker-alt mr-2"></i>Address
+                                                </label>
+                                                <p class="text-dark">{{ user.address if user.address else 'No address provided' }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="mb-3">
+                                                <i class="fas fa-shield-alt text-success mr-2"></i>Account Security
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="small-box bg-light">
+                                                <div class="inner">
+                                                    <h6>Password</h6>
+                                                    <p class="text-muted mb-0">Last changed: Unknown</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fas fa-lock"></i>
+                                                </div>
+                                                <a href="#" class="small-box-footer">
+                                                    Change Password <i class="fas fa-arrow-circle-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="small-box bg-light">
+                                                <div class="inner">
+                                                    <h6>Two-Factor Auth</h6>
+                                                    <p class="text-muted mb-0">Not enabled</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fas fa-mobile-alt"></i>
+                                                </div>
+                                                <a href="#" class="small-box-footer">
+                                                    Enable 2FA <i class="fas fa-arrow-circle-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Tab -->
+                                <div class="tab-pane" id="activity">
+                                    <div class="timeline">
+                                        <!-- timeline item -->
+                                        <div>
+                                            <i class="fas fa-user-check bg-success"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fas fa-clock"></i> {{ user.created_at.strftime('%d %b %Y, %I:%M %p') if user.created_at else 'N/A' }}</span>
+                                                <h3 class="timeline-header">Account Created</h3>
+                                                <div class="timeline-body">
+                                                    Your account was successfully created and activated.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- timeline item -->
+                                        <div>
+                                            <i class="fas fa-sign-in-alt bg-primary"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fas fa-clock"></i> Just now</span>
+                                                <h3 class="timeline-header">Last Login</h3>
+                                                <div class="timeline-body">
+                                                    You logged in from your current device.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END timeline item -->
+                                        <div>
+                                            <i class="fas fa-clock bg-gray"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Settings Tab -->
+                                <div class="tab-pane" id="settings">
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">
+                                                <i class="fas fa-bell mr-2"></i>Email Notifications
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="emailNotif" checked>
+                                                    <label class="custom-control-label" for="emailNotif">Receive email notifications</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">
+                                                <i class="fas fa-user-secret mr-2"></i>Profile Privacy
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="profilePrivacy">
+                                                    <label class="custom-control-label" for="profilePrivacy">Make profile private</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">
+                                                <i class="fas fa-envelope-open-text mr-2"></i>Marketing Emails
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="marketingEmails">
+                                                    <label class="custom-control-label" for="marketingEmails">Receive promotional emails</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="offset-sm-3 col-sm-9">
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fas fa-save mr-2"></i>Save Settings
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<style>
+    /* Profile Image Styles */
+    .profile-image-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-user-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 5px solid #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+
+    .profile-user-img:hover {
+        transform: scale(1.05);
+    }
+
+    .profile-image-overlay {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: #007bff;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,123,255,0.4);
+    }
+
+    .profile-image-overlay:hover {
+        background: #0056b3;
+        transform: scale(1.1);
+    }
+
+    /* Card Styles */
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-primary.card-outline {
+        border-top: 3px solid #007bff;
+    }
+
+    /* Info Item Styles */
+    .info-item {
+        padding: 10px 0;
+    }
+
+    .info-item label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .info-item p {
+        font-size: 1rem;
+        margin-bottom: 0;
+        padding: 8px 12px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        border-left: 3px solid #007bff;
+    }
+
+    /* Timeline Styles */
+    .timeline {
+        position: relative;
+        margin: 0 0 30px 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: #dee2e6;
+        left: 31px;
+        margin: 0;
+        border-radius: 2px;
+    }
+
+    .timeline > div {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .timeline > div > .timeline-item {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        margin-left: 60px;
+        margin-right: 15px;
+        padding: 15px;
+        position: relative;
+    }
+
+    .timeline > div > .timeline-item > .time {
+        color: #999;
+        float: right;
+        font-size: 12px;
+    }
+
+    .timeline > div > .timeline-item > .timeline-header {
+        color: #555;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 10px 0;
+    }
+
+    .timeline > div > .timeline-item > .timeline-body {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .timeline > div > .fas {
+        background: #fff;
+        border-radius: 50%;
+        font-size: 16px;
+        height: 40px;
+        left: 18px;
+        line-height: 40px;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 40px;
+        color: #fff;
+    }
+
+    /* Small Box Adjustments */
+    .small-box {
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .small-box .icon {
+        font-size: 70px;
+    }
+
+    /* Badge Styles */
+    .badge-pill {
+        padding: 0.4em 0.8em;
+        font-size: 0.85rem;
+    }
+
+    /* List Group Styles */
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+    }
+
+    .list-group-item:first-child {
+        border-top: none;
+    }
+
+    .list-group-item b {
+        font-weight: 600;
+    }
+
+    /* Nav Pills */
+    .nav-pills .nav-link {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: #007bff;
+    }
+
+    .nav-pills .nav-link:hover:not(.active) {
+        background-color: #e9ecef;
+    }
+
+    /* Custom Switch */
+    .custom-switch .custom-control-label::before {
+        border-radius: 1rem;
+    }
+
+    .custom-switch .custom-control-input:checked ~ .custom-control-label::before {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .profile-user-img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .timeline:before {
+            left: 21px;
+        }
+
+        .timeline > div > .fas {
+            left: 8px;
+            height: 30px;
+            width: 30px;
+            line-height: 30px;
+            font-size: 12px;
+        }
+
+        .timeline > div > .timeline-item {
+            margin-left: 50px;
+        }
+    }
+</style>
+
+<script>
+    // Image upload preview
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileImageOverlay = document.querySelector('.profile-image-overlay');
+
+        if (profileImageOverlay) {
+            profileImageOverlay.addEventListener('click', function() {
+                // This would trigger a file input dialog
+                alert('Image upload functionality would be implemented here');
+            });
+        }
+    });
+</script>
+
+<!-- /.content-wrapper -->
+
+{% endblock %}

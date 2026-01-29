@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Home</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
     {% include 'frontend/layout/style.html' %}
 </head>
 <body class="animsition">
 
     {% include 'frontend/layout/header.html' %}
+    {% include 'frontend/layout/cart.html' %}
+    {% block content %}
 
-    {% block content %}{% endblock %}
+    {% endblock %}
 
     {% include 'frontend/layout/footer.html' %}
     {% include 'frontend/layout/script.html' %}

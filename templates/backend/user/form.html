@@ -1,0 +1,178 @@
+{% extends 'backend/layout/master.html' %}
+
+{% block title %}
+    {{ 'Edit' if status == 'edit' else 'Add' }} User
+{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    {% for category, message in messages %}
+                        Swal.fire({
+                            icon: '{{ "success" if category == "success" else "error" }}',
+                            title: '{{ "Success" if category == "success" else "Error" }}',
+                            text: '{{ message }}',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    {% endfor %}
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <h1 class="m-0">{{ 'Edit' if status == 'edit' else 'Add' }} User</h1>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+
+                    <div class="card-header">
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <a href="{{ url_for("user") }}"
+                                   class="btn btn-block btn-outline-secondary"><i class="fas fa-arrow-left"></i>
+                                    Back</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="{{ url_for('save_user') }}" method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
+                        <input type="hidden" name="status" value="{{ status }}">
+                        {% if status == 'edit' %}
+                            <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                            <input type="hidden" name="old_image" value="{{ user.image }}">
+                        {% endif %}
+
+                        <div class="card-body row">
+
+                            <!-- Profile Image -->
+                            <div class="col-md-12 mb-4">
+                                <label class="font-weight-bold">Main User Image</label>
+                                <div class="image-upload-wrapper">
+                                    <img
+                                            src="{{ url_for('static', filename='uploads/') + user.image if user.image else url_for('static', filename='backend/dist/img/no_image.png') }}"
+                                            alt="Main Product Image" class="image-preview" id="mainImagePreview"
+                                            onerror="this.onerror=null;this.src='{{ url_for('static', filename='backend/dist/img/img-error.svg') }}';"
+                                    >
+                                    <label for="image_path" class="upload-btn btn btn-sm btn-primary">
+                                        <i class="fas fa-upload"></i> Choose Main Image
+                                    </label>
+                                    <input type="file" id="image_path" name="image_path" accept="image/*"
+                                           onchange="previewImage(event, 'mainImagePreview')">
+                                </div>
+                            </div>
+
+                            <!-- Username -->
+                            <div class="col-md-6">
+                                <label>Username *</label>
+                                <input type="text" name="username" class="form-control"
+                                       value="{{ user.username if status=='edit' }}">
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label>Email *</label>
+                                <input type="email" name="email" class="form-control"
+                                       value="{{ user.email if status=='edit' }}">
+                            </div>
+
+                            <!-- Password -->
+                            <div class="col-md-6">
+                                <label>Password {% if status != 'edit' %}*{% endif %}</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <label>Phone *</label>
+                                <input type="text" name="phone" class="form-control"
+                                       value="{{ user.phone if status=='edit' }}">
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-md-12">
+                                <label>Address</label>
+                                <textarea name="address"
+                                          class="form-control">{{ user.address if status=='edit' }}</textarea>
+                            </div>
+
+                            <!-- Role -->
+                            <div class="col-md-6">
+                                <label>Role *</label>
+                                <select name="role_id" class="form-control">
+                                    {% for role in roles %}
+                                        <option value="{{ role.role_id }}" {{ 'selected' if user.role_id == role.role_id }}>
+                                            {{ role.role_name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-6">
+                                <label>Status</label>
+                                <select name="user_status" class="form-control">
+                                    <option value="1" {{ 'selected' if user.status==1 }}>Active</option>
+                                    <option value="0" {{ 'selected' if user.status==0 }}>Inactive</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="reset" class="btn btn-danger">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save User</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    <style>
+        /* Main image styles */
+        .image-upload-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 3px solid #eee;
+        }
+
+        .upload-btn {
+            cursor: pointer;
+        }
+
+        #image_path, #multi_images {
+            display: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Preview main product image
+        function previewImage(event, previewId) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById(previewId);
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+{% endblock %}
